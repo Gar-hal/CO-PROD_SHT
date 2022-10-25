@@ -249,6 +249,10 @@ void UpdatePlayer(void)
 					g_Player[i].moving = TRUE;
 				}
 
+				ShowCursor(FALSE);	// カーソルの非表示
+
+				g_Player[i].pos.x = GetMousePosX();
+				g_Player[i].pos.y = GetMousePosY();
 
 				// ジャンプ処理中？
 				if (g_Player[i].jump == TRUE)
@@ -275,7 +279,6 @@ void UpdatePlayer(void)
 					g_Player[i].jumpY = 0.0f;
 				}
 				
-
 				// MAP外チェック
 				BG* bg = GetBG();
 
@@ -299,14 +302,14 @@ void UpdatePlayer(void)
 					g_Player[i].pos.y = bg->h;
 				}
 
-				// プレイヤーの立ち位置からMAPのスクロール座標を計算する
-				bg->pos.x = g_Player[i].pos.x - PLAYER_DISP_X;
-				if (bg->pos.x < 0) bg->pos.x = 0;
-				if (bg->pos.x > bg->w - SCREEN_WIDTH) bg->pos.x = bg->w - SCREEN_WIDTH;
+				//// プレイヤーの立ち位置からMAPのスクロール座標を計算する
+				//bg->pos.x = g_Player[i].pos.x - PLAYER_DISP_X;
+				//if (bg->pos.x < 0) bg->pos.x = 0;
+				//if (bg->pos.x > bg->w - SCREEN_WIDTH) bg->pos.x = bg->w - SCREEN_WIDTH;
 
-				bg->pos.y = g_Player[i].pos.y - PLAYER_DISP_Y;
-				if (bg->pos.y < 0) bg->pos.y = 0;
-				if (bg->pos.y > bg->h - SCREEN_HEIGHT) bg->pos.y = bg->h - SCREEN_HEIGHT;
+				//bg->pos.y = g_Player[i].pos.y - PLAYER_DISP_Y;
+				//if (bg->pos.y < 0) bg->pos.y = 0;
+				//if (bg->pos.y > bg->h - SCREEN_HEIGHT) bg->pos.y = bg->h - SCREEN_HEIGHT;
 
 
 				// 移動が終わったらエネミーとの当たり判定

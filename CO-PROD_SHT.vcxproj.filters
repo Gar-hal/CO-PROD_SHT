@@ -84,6 +84,9 @@
     <ClInclude Include="title.h">
       <Filter>ヘッダー ファイル\TITLE_END</Filter>
     </ClInclude>
+    <ClInclude Include="menu_game.h">
+      <Filter>ヘッダー ファイル\GAME</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="score.cpp">
       <Filter>ソース ファイル\TITLE_END</Filter>
+    </ClCompile>
+    <ClCompile Include="menu_game.cpp">
+      <Filter>ソース ファイル\GAME</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
