@@ -124,7 +124,7 @@ void UpdateResult(void)
 		SetFade(FADE_OUT, MODE_TITLE);
 	}
 	// ゲームパッドで入力処理
-	else if (IsButtonTriggered(0, BUTTON_START))
+	else if (IsButtonTriggered(0, BUTTON_A))
 	{
 		SetFade(FADE_OUT, MODE_TITLE);
 	}

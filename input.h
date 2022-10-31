@@ -19,34 +19,40 @@
 
 
 /* game padî•ñ */
-#define BUTTON_UP		0x00000001l	// •ûŒüƒL[ã(.IY<0)
-#define BUTTON_DOWN		0x00000002l	// •ûŒüƒL[‰º(.IY>0)
-#define BUTTON_LEFT		0x00000004l	// •ûŒüƒL[¶(.IX<0)
-#define BUTTON_RIGHT	0x00000008l	// •ûŒüƒL[‰E(.IX>0)
+#define BUTTON_L_UP			0x00000001l	// ¶•ûŒüƒL[ã		(.IY<0)
+#define BUTTON_L_DOWN		0x00000002l	// ¶•ûŒüƒL[‰º		(.IY>0)
+#define BUTTON_L_LEFT		0x00000004l	// ¶•ûŒüƒL[¶		(.IX<0)
+#define BUTTON_L_RIGHT		0x00000008l	// ¶•ûŒüƒL[‰E		(.IX>0)
 
-//#define BUTTON_A		0x00000010l	// ‚`ƒ{ƒ^ƒ“(.rgbButtons[0]&0x80)
-//#define BUTTON_B		0x00000020l	// ‚aƒ{ƒ^ƒ“(.rgbButtons[1]&0x80)
-//#define BUTTON_C		0x00000040l	// ‚bƒ{ƒ^ƒ“(.rgbButtons[2]&0x80)
-//#define BUTTON_X		0x00000080l	// ‚wƒ{ƒ^ƒ“(.rgbButtons[3]&0x80)
-//#define BUTTON_Y		0x00000100l	// ‚xƒ{ƒ^ƒ“(.rgbButtons[4]&0x80)
-//#define BUTTON_Z		0x00000200l	// ‚yƒ{ƒ^ƒ“(.rgbButtons[5]&0x80)
-//#define BUTTON_L		0x00000400l	// ‚kƒ{ƒ^ƒ“(.rgbButtons[6]&0x80)
-//#define BUTTON_R		0x00000800l	// ‚qƒ{ƒ^ƒ“(.rgbButtons[7]&0x80)
-//#define BUTTON_START	0x00001000l	// ‚r‚s‚`‚q‚sƒ{ƒ^ƒ“(.rgbButtons[8]&0x80)
-//#define BUTTON_M		0x00002000l	// ‚lƒ{ƒ^ƒ“(.rgbButtons[9]&0x80)
+#define BUTTON_R_UP			0x00100000l	// ‰E•ûŒüƒL[ã		(.lRz < 25000)
+#define BUTTON_R_DOWN		0x00200000l	// ‰E•ûŒüƒL[‰º		(.lRz > 40000)
+#define BUTTON_R_LEFT		0x00400000l	// ‰E•ûŒüƒL[¶		(.lZ  < 20000)
+#define BUTTON_R_RIGHT		0x00800000l	// ‰E•ûŒüƒL[‰E		(.lZ  > 45000)
 
-#define BUTTON_X		0x00000010l	// ‚wƒ{ƒ^ƒ“(.rgbButtons[0]&0x80)
-#define BUTTON_A		0x00000020l	// ‚`ƒ{ƒ^ƒ“(.rgbButtons[1]&0x80)
-#define BUTTON_B		0x00000040l	// ‚aƒ{ƒ^ƒ“(.rgbButtons[2]&0x80)
-#define BUTTON_Y		0x00000080l	// ‚xƒ{ƒ^ƒ“(.rgbButtons[3]&0x80)
-#define BUTTON_L		0x00000100l	// ‚kƒ{ƒ^ƒ“(.rgbButtons[4]&0x80)
-#define BUTTON_R		0x00000200l	// ‚qƒ{ƒ^ƒ“(.rgbButtons[5]&0x80)
-#define BUTTON_L2		0x00000400l	// ‚kƒ{ƒ^ƒ“(.rgbButtons[6]&0x80)
-#define BUTTON_R2		0x00000800l	// ‚qƒ{ƒ^ƒ“(.rgbButtons[7]&0x80)
-#define BUTTON_SELECT	0x00001000l	// ‚yƒ{ƒ^ƒ“(.rgbButtons[8]&0x80)
-#define BUTTON_START	0x00002000l	// ‚r‚s‚`‚q‚sƒ{ƒ^ƒ“(.rgbButtons[9]&0x80)
+#define BUTTON_POV_UP		0x00010000l	// \šƒL[ã		(.rgdwPOV[0] == 0)
+#define BUTTON_POV_DOWN		0x00020000l	// \šƒL[‰º		(.rgdwPOV[0] == 18000)
+#define BUTTON_POV_LEFT		0x00040000l	// \šƒL[¶		(.rgdwPOV[0] == 27000)
+#define BUTTON_POV_RIGHT	0x00080000l	// \šƒL[‰E		(.rgdwPOV[0] == 9000)
 
-#define GAMEPADMAX		4			// “¯‚ÉÚ‘±‚·‚éƒWƒ‡ƒCƒpƒbƒh‚ÌÅ‘å”‚ğƒZƒbƒg
+#define BUTTON_X			0x00000010l	// ‚wƒ{ƒ^ƒ“			(.rgbButtons[0]&0x80)
+#define BUTTON_A			0x00000020l	// ‚`ƒ{ƒ^ƒ“			(.rgbButtons[1]&0x80)
+#define BUTTON_B			0x00000040l	// ‚aƒ{ƒ^ƒ“			(.rgbButtons[2]&0x80)
+#define BUTTON_Y			0x00000080l	// ‚xƒ{ƒ^ƒ“			(.rgbButtons[3]&0x80)
+
+#define BUTTON_L			0x00000100l	// ‚kƒ{ƒ^ƒ“			(.rgbButtons[4]&0x80)
+#define BUTTON_R			0x00000200l	// ‚qƒ{ƒ^ƒ“			(.rgbButtons[5]&0x80)
+#define BUTTON_L2			0x00000400l	// ‚kƒ{ƒ^ƒ“			(.rgbButtons[6]&0x80)
+#define BUTTON_R2			0x00000800l	// ‚qƒ{ƒ^ƒ“			(.rgbButtons[7]&0x80)
+
+#define BUTTON_SHARE		0x00001000l	// SHAREƒ{ƒ^ƒ“		(.rgbButtons[8]&0x80)
+#define BUTTON_OPTIONS		0x00002000l	// OPTIONSƒ{ƒ^ƒ“	(.rgbButtons[9]&0x80)
+
+#define BUTTON_L3			0x00004000l	// ‚k‚Rƒ{ƒ^ƒ“		(.rgbButtons[10]&0x80)
+#define BUTTON_R3			0x00008000l	// ‚q‚Rƒ{ƒ^ƒ“		(.rgbButtons[11]&0x80)
+#define BUTTON_PS			0x01000000l	// ‚o‚rƒ{ƒ^ƒ“		(.rgbButtons[12]&0x80)
+#define BUTTON_PAD			0x02000000l	// ƒgƒ‰ƒbƒNƒpƒbƒh	(.rgbButtons[13]&0x80)
+
+#define GAMEPADMAX			4			// “¯‚ÉÚ‘±‚·‚éƒWƒ‡ƒCƒpƒbƒh‚ÌÅ‘å”‚ğƒZƒbƒg
 
 enum {	// ƒ{ƒ^ƒ“‚É‘Î‚·‚érgbButtons[?]”z—ñ‚Ì”z—ñ”Ô†(DirectInputã‚Å‚ÌXYABƒ{ƒ^ƒ“ˆÊ’u‚É‡‚í‚¹‚½)
 	rgbButtons_X,
@@ -59,6 +65,10 @@ enum {	// ƒ{ƒ^ƒ“‚É‘Î‚·‚érgbButtons[?]”z—ñ‚Ì”z—ñ”Ô†(DirectInputã‚Å‚ÌXYABƒ{ƒ^ƒ“ˆ
 	rgbButtons_R2,
 	rgbButtons_SELECT,
 	rgbButtons_START,
+	rgbButtons_L3,
+	rgbButtons_R3,
+	rgbButtons_PS,
+	rgbButtons_PAD,
 };
 
 
@@ -88,7 +98,7 @@ long GetMouseY(void);               // ƒ}ƒEƒX‚ªY•ûŒü‚É“®‚¢‚½‘Š‘Î’l
 long GetMouseZ(void);               // ƒ}ƒEƒXƒzƒC[ƒ‹‚ª“®‚¢‚½‘Š‘Î’l
 
 //---------------------------- game pad
-BOOL IsButtonPressed(int padNo,DWORD button);
-BOOL IsButtonTriggered(int padNo,DWORD button);
+BOOL IsButtonPressed(int padNo, DWORD button);
+BOOL IsButtonTriggered(int padNo, DWORD button);
 
 

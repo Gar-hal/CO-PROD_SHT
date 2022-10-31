@@ -9,6 +9,7 @@
 #include "bounding_area.h"
 #include "score.h"
 #include "bg.h"
+#include "player.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -41,6 +42,8 @@ static char *g_TexturName[] = {
 static BOOL		g_Load = FALSE;			// 初期化を行ったかのフラグ
 static BULLET	g_Bullet[BULLET_MAX];	// バレット構造体
 
+float SIN, COS;
+BOOL Sin, Cos;
 
 //=============================================================================
 // 初期化処理
@@ -75,18 +78,23 @@ HRESULT InitBullet(void)
 	// バレット構造体の初期化
 	for (int i = 0; i < BULLET_MAX; i++)
 	{
-		g_Bullet[i].use   = FALSE;			// 未使用（発射されていない弾）
+		g_Bullet[i].use   = TRUE;			// 未使用（発射されていない弾）
 		g_Bullet[i].w     = TEXTURE_WIDTH;
 		g_Bullet[i].h     = TEXTURE_HEIGHT;
 		g_Bullet[i].pos   = XMFLOAT3(300, 300.0f, 0.0f);
-		g_Bullet[i].rot   = XMFLOAT3(0.0f, 0.0f, 0.0f);
+		g_Bullet[i].rot   = XMFLOAT3(0.0f, 0.0f, XM_PI / 2);
 		g_Bullet[i].texNo = 0;
 
 		g_Bullet[i].countAnim = 0;
 		g_Bullet[i].patternAnim = 0;
 
-		g_Bullet[i].move = XMFLOAT3(0.0f, -BULLET_SPEED, 0.0f);	// 移動量を初期化
+		g_Bullet[i].move = XMFLOAT3(BULLET_SPEED, 0.0f, 0.0f);	// 移動量を初期化
 	}
+
+	SIN = 0.0f;
+	COS = -70.0f;
+	Sin = FALSE;
+	Cos = TRUE;
 	
 	g_Load = TRUE;
 	return S_OK;
@@ -138,6 +146,29 @@ void UpdateBullet(void)
 			// バレットの移動処理
 			XMVECTOR pos  = XMLoadFloat3(&g_Bullet[i].pos);
 			XMVECTOR move = XMLoadFloat3(&g_Bullet[i].move);
+
+			PLAYER* player = GetPlayer();
+			//if (Sin == TRUE) {
+			//	SIN++;
+			//	if (SIN >= 70.0f) Sin = FALSE;
+			//}
+			//else {
+			//	SIN--;
+			//	if (SIN <= -70.0f) Sin = TRUE;
+			//}
+
+			//if (Cos == TRUE) {
+			//	COS++;
+			//	if (COS >= 70.0f) Cos = FALSE;
+			//}
+			//else {
+			//	COS--;
+			//	if (COS <= -70.0f) Cos = TRUE;
+			//}
+
+			//g_Bullet[i].pos.x = player->pos.x + (cosf(COS) * 100);
+			//g_Bullet[i].pos.y = player->pos.y + (sinf(COS) * 100);
+
 			pos += move;
 			XMStoreFloat3(&g_Bullet[i].pos, pos);
 
@@ -175,6 +206,10 @@ void UpdateBullet(void)
 				}
 			}
 
+			if (g_Bullet[i].pos.x > SCREEN_WIDTH)
+			{
+				g_Bullet[i].use = FALSE;
+			}
 
 			bulletCount++;
 		}

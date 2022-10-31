@@ -128,12 +128,12 @@ void UninitTitle(void)
 void UpdateTitle(void)
 {
 
-	if (GetKeyboardTrigger(DIK_RETURN))
+	if ((GetKeyboardTrigger(DIK_RETURN)) || (IsMouseLeftTriggered()))
 	{// Enter押したら、ステージを切り替える
 		SetFade(FADE_OUT, MODE_GAME);
 	}
 	// ゲームパッドで入力処理
-	else if (IsButtonTriggered(0, BUTTON_START))
+	else if (IsButtonTriggered(0, BUTTON_A))
 	{
 		SetFade(FADE_OUT, MODE_GAME);
 	}

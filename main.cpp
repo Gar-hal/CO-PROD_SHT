@@ -104,26 +104,26 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		hInstance,
 		NULL);
 
-	// ウィンドウモードかフルスクリーンモードかの処理
-	BOOL mode = TRUE;
+	//// ウィンドウモードかフルスクリーンモードかの処理
+	//BOOL mode = TRUE;
 
-	int id = MessageBox(NULL, "Windowモードでプレイしますか？", "起動モード", MB_YESNOCANCEL | MB_ICONQUESTION);
-	switch (id)
-	{
-	case IDYES:		// YesならWindowモードで起動
-		mode = TRUE;
-		break;
-	case IDNO:		// Noならフルスクリーンモードで起動
-		mode = FALSE;	// 環境によって動かない事がある
-		break;
-	case IDCANCEL:	// CANCELなら終了
-	default:
-		return -1;
-		break;
-	}
+	//int id = MessageBox(NULL, "Windowモードでプレイしますか？", "起動モード", MB_YESNOCANCEL | MB_ICONQUESTION);
+	//switch (id)
+	//{
+	//case IDYES:		// YesならWindowモードで起動
+	//	mode = TRUE;
+	//	break;
+	//case IDNO:		// Noならフルスクリーンモードで起動
+	//	mode = FALSE;	// 環境によって動かない事がある
+	//	break;
+	//case IDCANCEL:	// CANCELなら終了
+	//default:
+	//	return -1;
+	//	break;
+	//}
 
 	// 初期化処理(ウィンドウを作成してから行う)
-	if(FAILED(Init(hInstance, hWnd, mode)))
+	if(FAILED(Init(hInstance, hWnd, FALSE)))
 	{
 		return -1;
 	}
@@ -166,7 +166,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				dwFrameCount = 0;							// カウントをクリア
 			}
 
-			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 60))	// 1/60秒ごとに実行
+			if ((dwCurrentTime - dwExecLastTime) >= (1000 / 120))	// 1/60秒ごとに実行
 			{
 				dwExecLastTime = dwCurrentTime;	// 処理した時刻を保存
 

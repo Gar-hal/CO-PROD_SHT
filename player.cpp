@@ -56,13 +56,14 @@ static char *g_TexturName[TEXTURE_MAX] = {
 static BOOL		g_Load = FALSE;			// 初期化を行ったかのフラグ
 static PLAYER	g_Player[PLAYER_MAX];	// プレイヤー構造体
 
+POINT po;
 
 //=============================================================================
 // 初期化処理
 //=============================================================================
 HRESULT InitPlayer(void)
 {
-	ID3D11Device *pDevice = GetDevice();
+	ID3D11Device* pDevice = GetDevice();
 
 	//テクスチャ生成
 	for (int i = 0; i < TEXTURE_MAX; i++)
@@ -117,9 +118,12 @@ HRESULT InitPlayer(void)
 		{
 			g_Player[i].offset[j] = g_Player[i].pos;
 		}
+	
+
+		//XMFLOAT3 pos = g_Player[i].pos;
+		//pos.y += g_Player[i].jumpY;
+		//SetBullet(pos);
 	}
-
-
 	g_Load = TRUE;
 	return S_OK;
 }
@@ -154,6 +158,7 @@ void UninitPlayer(void)
 //=============================================================================
 void UpdatePlayer(void)
 {
+	ShowCursor(FALSE);	// カーソルの非表示
 
 	for (int i = 0; i < PLAYER_MAX; i++)
 	{
@@ -223,36 +228,38 @@ void UpdatePlayer(void)
 				}
 
 				// ゲームパッドでで移動処理
-				if (IsButtonPressed(0, BUTTON_DOWN))
+				if (IsButtonPressed(0, BUTTON_POV_DOWN))
 				{
 					g_Player[i].pos.y += speed;
 					g_Player[i].dir = CHAR_DIR_DOWN;
 					g_Player[i].moving = TRUE;
 				}
-				else if (IsButtonPressed(0, BUTTON_UP))
+				else if (IsButtonPressed(0, BUTTON_POV_UP))
 				{
 					g_Player[i].pos.y -= speed;
 					g_Player[i].dir = CHAR_DIR_UP;
 					g_Player[i].moving = TRUE;
 				}
 
-				if (IsButtonPressed(0, BUTTON_RIGHT))
+				if (IsButtonPressed(0, BUTTON_POV_RIGHT))
 				{
 					g_Player[i].pos.x += speed;
 					g_Player[i].dir = CHAR_DIR_RIGHT;
 					g_Player[i].moving = TRUE;
 				}
-				else if (IsButtonPressed(0, BUTTON_LEFT))
+				else if (IsButtonPressed(0, BUTTON_POV_LEFT))
 				{
 					g_Player[i].pos.x -= speed;
 					g_Player[i].dir = CHAR_DIR_LEFT;
 					g_Player[i].moving = TRUE;
 				}
 
-				ShowCursor(FALSE);	// カーソルの非表示
+				GetCursorPos(&po);
+				g_Player[i].pos.x = (float)po.x;
+				g_Player[i].pos.y = (float)po.y;
 
-				g_Player[i].pos.x = GetMousePosX();
-				g_Player[i].pos.y = GetMousePosY();
+				//g_Player[i].pos.x = (float)GetMousePosX();
+				//g_Player[i].pos.y = (float)GetMousePosY();
 
 				// ジャンプ処理中？
 				if (g_Player[i].jump == TRUE)
@@ -287,20 +294,30 @@ void UpdatePlayer(void)
 					g_Player[i].pos.x = 0.0f;
 				}
 
-				if (g_Player[i].pos.x > bg->w)
+				if (g_Player[i].pos.x > SCREEN_WIDTH)
 				{
-					g_Player[i].pos.x = bg->w;
+					g_Player[i].pos.x = SCREEN_WIDTH;
 				}
+
+				//if (g_Player[i].pos.x > bg->w)
+				//{
+				//	g_Player[i].pos.x = bg->w;
+				//}
 
 				if (g_Player[i].pos.y < 0.0f)
 				{
 					g_Player[i].pos.y = 0.0f;
 				}
 
-				if (g_Player[i].pos.y > bg->h)
+				if (g_Player[i].pos.y > SCREEN_HEIGHT)
 				{
-					g_Player[i].pos.y = bg->h;
+					g_Player[i].pos.y = SCREEN_HEIGHT;
 				}
+
+				//if (g_Player[i].pos.y > bg->h)
+				//{
+				//	g_Player[i].pos.y = bg->h;
+				//}
 
 				//// プレイヤーの立ち位置からMAPのスクロール座標を計算する
 				//bg->pos.x = g_Player[i].pos.x - PLAYER_DISP_X;
@@ -336,10 +353,11 @@ void UpdatePlayer(void)
 				}
 
 				// バレット処理
-				if (GetKeyboardTrigger(DIK_SPACE))
+				//if (GetKeyboardTrigger(DIK_SPACE))
+				if (IsMouseLeftTriggered())
 				{
 					XMFLOAT3 pos = g_Player[i].pos;
-					pos.y += g_Player[i].jumpY;
+					pos.x += 10;
 					SetBullet(pos);
 				}
 				if (IsButtonTriggered(0, BUTTON_B))
