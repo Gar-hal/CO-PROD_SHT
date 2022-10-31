@@ -38,6 +38,12 @@ static float					g_w, g_h;					// 幅と高さ
 static XMFLOAT3					g_Pos;						// ポリゴンの座標
 static int						g_TexNo;					// テクスチャ番号
 
+static int						g_ShootCun;					// 撃った弾をカウント
+static int						g_HitCun;					// 当たった弾をカウント
+static int						g_KillCun;					// 撃破数をカウント
+static int						g_KillAssCun;				// 撃破アシストをカウント
+
+
 static int						g_Score;					// スコア
 
 //=============================================================================
