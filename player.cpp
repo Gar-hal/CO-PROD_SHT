@@ -154,7 +154,6 @@ void UninitPlayer(void)
 //=============================================================================
 void UpdatePlayer(void)
 {
-	SCORE* score = GetScore();
 
 
 	for (int i = 0; i < PLAYER_MAX; i++)
@@ -329,6 +328,8 @@ void UpdatePlayer(void)
 								// “–‚½‚Á‚½Žž‚Ìˆ—
 								enemy[j].use = FALSE;
 								AddScore(10);
+								KillScore(1);
+								HitScore(1);
 							}
 						}
 					}
@@ -339,7 +340,6 @@ void UpdatePlayer(void)
 				{
 					XMFLOAT3 pos = g_Player[i].pos;
 					pos.y += g_Player[i].jumpY;
-					score->ShootCun++;
 					SetBullet(pos);
 				}
 				if (IsButtonTriggered(0, BUTTON_B))

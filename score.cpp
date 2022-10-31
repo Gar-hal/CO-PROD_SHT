@@ -38,13 +38,16 @@ static float					g_w, g_h;					// 幅と高さ
 static XMFLOAT3					g_Pos;						// ポリゴンの座標
 static int						g_TexNo;					// テクスチャ番号
 
-static int						g_ShootCun;					// 撃った弾をカウント
-static int						g_HitCun;					// 当たった弾をカウント
-static int						g_KillCun;					// 撃破数をカウント
-static int						g_KillAssCun;				// 撃破アシストをカウント
-
 
 static int						g_Score;					// スコア
+
+static int						g_KillScore;					// 撃破スコア
+static int						g_KillassScore;					// 撃破補助スコア
+static int						g_ShootScore;					// 発射スコア
+static int						g_HitScore;						// 命中スコア
+
+
+
 
 //=============================================================================
 // 初期化処理
@@ -194,6 +197,49 @@ void AddScore(int add)
 	}
 
 }
+
+void KillScore(int addkill)
+{
+	g_KillScore += addkill;
+	if (g_KillScore > SCORE_MAX)
+	{
+		g_KillScore = SCORE_MAX;
+	}
+
+}
+
+void KillassScore(int addkillass)
+{
+	g_KillassScore += addkillass;
+	if (g_KillassScore > SCORE_MAX)
+	{
+		g_KillassScore = SCORE_MAX;
+	}
+
+}
+
+void ShootScore(int addshoot)
+{
+	g_ShootScore += addshoot;
+	if (g_ShootScore > SCORE_MAX)
+	{
+		g_ShootScore = SCORE_MAX;
+	}
+
+}
+
+void HitScore(int addhit)
+{
+	g_HitScore += addhit;
+	if (g_HitScore > SCORE_MAX)
+	{
+		g_HitScore = SCORE_MAX;
+	}
+
+}
+
+
+
 
 
 int GetScore(void)

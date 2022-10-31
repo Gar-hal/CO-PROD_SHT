@@ -17,6 +17,13 @@
 
 
 //*****************************************************************************
+// 構造体定義
+//*****************************************************************************
+
+
+
+
+//*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
 HRESULT InitScore(void);
@@ -25,6 +32,14 @@ void UpdateScore(void);
 void DrawScore(void);
 
 void AddScore(int add);
+void KillScore(int addkill);
+void KillassScore(int addkillass);
+void ShootScore(int addshoot);
+void HitScore(int addhit);
+
+
+
+
 int GetScore(void);
 void SetScore(int score);
 
