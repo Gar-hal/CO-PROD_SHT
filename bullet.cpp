@@ -170,6 +170,8 @@ void UpdateBullet(void)
 							// “–‚½‚Á‚½‚Ìˆ—
 							enemy[j].use = FALSE;
 							AddScore(100);
+							KillScore(1);
+
 						}
 					}
 				}

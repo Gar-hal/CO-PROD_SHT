@@ -14,7 +14,7 @@
 //*****************************************************************************
 #define TEXTURE_WIDTH				(16)	// ƒLƒƒƒ‰ƒTƒCƒY
 #define TEXTURE_HEIGHT				(32)	// 
-#define TEXTURE_MAX					(1)		// ƒeƒNƒXƒ`ƒƒ‚Ì”
+#define TEXTURE_MAX					(2)		// ƒeƒNƒXƒ`ƒƒ‚Ì”
 
 
 //*****************************************************************************
@@ -30,22 +30,24 @@ static ID3D11ShaderResourceView	*g_Texture[TEXTURE_MAX] = { NULL };	// ƒeƒNƒXƒ`ƒ
 
 static char *g_TexturName[] = {
 	"data/TEXTURE/number16x32.png",
+	"data/TEXTURE/number16x32.png",
 };
 
 
 static bool						g_Use;						// true:g‚Á‚Ä‚¢‚é  false:–¢g—p
 static float					g_w, g_h;					// •‚Æ‚‚³
-static XMFLOAT3					g_Pos;						// ƒ|ƒŠƒSƒ“‚ÌÀ•W
+static XMFLOAT3					g_Pos0;						// ƒ|ƒŠƒSƒ“‚ÌÀ•W
+static XMFLOAT3					g_Pos1;						// ƒ|ƒŠƒSƒ“‚ÌÀ•W
 static int						g_TexNo;					// ƒeƒNƒXƒ`ƒƒ”Ô†
 
 
-static int						g_Score;					// ƒXƒRƒA
-
+static int						g_Score;						// ƒXƒRƒA
 static int						g_KillScore;					// Œ‚”jƒXƒRƒA
 static int						g_KillassScore;					// Œ‚”j•â•ƒXƒRƒA
 static int						g_ShootScore;					// ”­ËƒXƒRƒA
 static int						g_HitScore;						// –½’†ƒXƒRƒA
 
+//static SCORE	g_Score[SCORE_MAX];	// ƒXƒRƒA\‘¢‘Ì
 
 
 
@@ -83,10 +85,19 @@ HRESULT InitScore(void)
 	g_Use   = true;
 	g_w     = TEXTURE_WIDTH;
 	g_h     = TEXTURE_HEIGHT;
-	g_Pos   = { 500.0f, 20.0f, 0.0f };
+	g_Pos0  = { 900.0f, 60.0f, 0.0f };
+	g_Pos1  = { 900.0f, 100.0f, 0.0f };
 	g_TexNo = 0;
 
-	g_Score = 0;	// ƒXƒRƒA‚Ì‰Šú‰»
+
+
+
+	// ƒXƒRƒA‚Ì‰Šú‰»
+	g_Score = 0;
+	g_KillScore = 0;
+	g_KillassScore = 0;
+	g_ShootScore = 0;
+	g_HitScore = 0;
 
 	return S_OK;
 }
@@ -133,54 +144,96 @@ void UpdateScore(void)
 //=============================================================================
 void DrawScore(void)
 {
-	// ’¸“_ƒoƒbƒtƒ@İ’è
-	UINT stride = sizeof(VERTEX_3D);
-	UINT offset = 0;
-	GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride, &offset);
-
-	// ƒ}ƒgƒŠƒNƒXİ’è
-	SetWorldViewProjection2D();
-
-	// ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
-	GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
-	// ƒ}ƒeƒŠƒAƒ‹İ’è
-	MATERIAL material;
-	ZeroMemory(&material, sizeof(material));
-	material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	SetMaterial(material);
-
-	// ƒeƒNƒXƒ`ƒƒİ’è
-	GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[g_TexNo]);
-
-	// Œ…”•ªˆ—‚·‚é
-	int number = g_Score;
-	for (int i = 0; i < SCORE_DIGIT; i++)
 	{
-		// ¡‰ñ•\¦‚·‚éŒ…‚Ì”š
-		float x = (float)(number % 10);
+		// ’¸“_ƒoƒbƒtƒ@İ’è
+		UINT stride0 = sizeof(VERTEX_3D);
+		UINT offset0 = 0;
+		GetDeviceContext()->IASetVertexBuffers(0, 1, &g_VertexBuffer, &stride0, &offset0);
 
-		// ƒXƒRƒA‚ÌˆÊ’u‚âƒeƒNƒXƒ`ƒƒ[À•W‚ğ”½‰f
-		float px = g_Pos.x - g_w*i;	// ƒXƒRƒA‚Ì•\¦ˆÊ’uX
-		float py = g_Pos.y;			// ƒXƒRƒA‚Ì•\¦ˆÊ’uY
-		float pw = g_w;				// ƒXƒRƒA‚Ì•\¦•
-		float ph = g_h;				// ƒXƒRƒA‚Ì•\¦‚‚³
+		// ƒ}ƒgƒŠƒNƒXİ’è
+		SetWorldViewProjection2D();
 
-		float tw = 1.0f / 10;		// ƒeƒNƒXƒ`ƒƒ‚Ì•
-		float th = 1.0f / 1;		// ƒeƒNƒXƒ`ƒƒ‚Ì‚‚³
-		float tx = x * tw;			// ƒeƒNƒXƒ`ƒƒ‚Ì¶ãXÀ•W
-		float ty = 0.0f;			// ƒeƒNƒXƒ`ƒƒ‚Ì¶ãYÀ•W
+		// ƒvƒŠƒ~ƒeƒBƒuƒgƒ|ƒƒWİ’è
+		GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-		// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
-		SetSpriteColor(g_VertexBuffer, px, py, pw, ph, tx, ty, tw, th,
-			XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+		// ƒ}ƒeƒŠƒAƒ‹İ’è
+		MATERIAL material;
+		ZeroMemory(&material, sizeof(material));
+		material.Diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+		SetMaterial(material);
 
-		// ƒ|ƒŠƒSƒ“•`‰æ
-		GetDeviceContext()->Draw(4, 0);
+		// ƒXƒRƒA•\¦
+		{
+			// ƒeƒNƒXƒ`ƒƒİ’è
+			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[0]);
 
-		// Ÿ‚ÌŒ…‚Ö
-		number /= 10;
+			// Œ…”•ªˆ—‚·‚é
+			int number0 = g_Score;
+			for (int i = 0; i < SCORE_DIGIT; i++)
+			{
+				// ¡‰ñ•\¦‚·‚éŒ…‚Ì”š
+				float x = (float)(number0 % 10);
+
+				// ƒXƒRƒA‚ÌˆÊ’u‚âƒeƒNƒXƒ`ƒƒ[À•W‚ğ”½‰f
+				float px = g_Pos0.x - g_w * i;	// ƒXƒRƒA‚Ì•\¦ˆÊ’uX
+				float py = g_Pos0.y;			// ƒXƒRƒA‚Ì•\¦ˆÊ’uY
+				float pw = g_w;				// ƒXƒRƒA‚Ì•\¦•
+				float ph = g_h;				// ƒXƒRƒA‚Ì•\¦‚‚³
+
+				float tw = 1.0f / 10;		// ƒeƒNƒXƒ`ƒƒ‚Ì•
+				float th = 1.0f / 1;		// ƒeƒNƒXƒ`ƒƒ‚Ì‚‚³
+				float tx = x * tw;			// ƒeƒNƒXƒ`ƒƒ‚Ì¶ãXÀ•W
+				float ty = 0.0f;			// ƒeƒNƒXƒ`ƒƒ‚Ì¶ãYÀ•W
+
+				// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+				SetSpriteColor(g_VertexBuffer, px, py, pw, ph, tx, ty, tw, th,
+					XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+
+				// ƒ|ƒŠƒSƒ“•`‰æ
+				GetDeviceContext()->Draw(4, 0);
+
+				// Ÿ‚ÌŒ…‚Ö
+				number0 /= 10;
+			}
+		}
+
+		// ƒLƒ‹”•\¦
+		{
+			// ƒeƒNƒXƒ`ƒƒİ’è
+			GetDeviceContext()->PSSetShaderResources(0, 1, &g_Texture[1]);
+
+			// Œ…”•ªˆ—‚·‚é
+			int number1 = g_KillScore;
+			for (int i = 0; i < SCORE_DIGIT; i++)
+			{
+				// ¡‰ñ•\¦‚·‚éŒ…‚Ì”š
+				float x = (float)(number1 % 10);
+
+				// ƒXƒRƒA‚ÌˆÊ’u‚âƒeƒNƒXƒ`ƒƒ[À•W‚ğ”½‰f
+				float px = g_Pos1.x - g_w * i;	// ƒXƒRƒA‚Ì•\¦ˆÊ’uX
+				float py = g_Pos1.y;			// ƒXƒRƒA‚Ì•\¦ˆÊ’uY
+				float pw = g_w;				// ƒXƒRƒA‚Ì•\¦•
+				float ph = g_h;				// ƒXƒRƒA‚Ì•\¦‚‚³
+
+				float tw = 1.0f / 10;		// ƒeƒNƒXƒ`ƒƒ‚Ì•
+				float th = 1.0f / 1;		// ƒeƒNƒXƒ`ƒƒ‚Ì‚‚³
+				float tx = x * tw;			// ƒeƒNƒXƒ`ƒƒ‚Ì¶ãXÀ•W
+				float ty = 0.0f;			// ƒeƒNƒXƒ`ƒƒ‚Ì¶ãYÀ•W
+
+				// ‚P–‡‚Ìƒ|ƒŠƒSƒ“‚Ì’¸“_‚ÆƒeƒNƒXƒ`ƒƒÀ•W‚ğİ’è
+				SetSpriteColor(g_VertexBuffer, px, py, pw, ph, tx, ty, tw, th,
+					XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+
+				// ƒ|ƒŠƒSƒ“•`‰æ
+				GetDeviceContext()->Draw(4, 0);
+
+				// Ÿ‚ÌŒ…‚Ö
+				number1 /= 10;
+			}
+		}
+
 	}
+
 }
 
 
@@ -191,9 +244,9 @@ void DrawScore(void)
 void AddScore(int add)
 {
 	g_Score += add;
-	if (g_Score > SCORE_MAX)
+	if (g_Score > SCORE_NUM_MAX)
 	{
-		g_Score = SCORE_MAX;
+		g_Score = SCORE_NUM_MAX;
 	}
 
 }
@@ -201,9 +254,9 @@ void AddScore(int add)
 void KillScore(int addkill)
 {
 	g_KillScore += addkill;
-	if (g_KillScore > SCORE_MAX)
+	if (g_KillScore > SCORE_NUM_MAX)
 	{
-		g_KillScore = SCORE_MAX;
+		g_KillScore = SCORE_NUM_MAX;
 	}
 
 }
@@ -211,9 +264,9 @@ void KillScore(int addkill)
 void KillassScore(int addkillass)
 {
 	g_KillassScore += addkillass;
-	if (g_KillassScore > SCORE_MAX)
+	if (g_KillassScore > SCORE_NUM_MAX)
 	{
-		g_KillassScore = SCORE_MAX;
+		g_KillassScore = SCORE_NUM_MAX;
 	}
 
 }
@@ -221,9 +274,9 @@ void KillassScore(int addkillass)
 void ShootScore(int addshoot)
 {
 	g_ShootScore += addshoot;
-	if (g_ShootScore > SCORE_MAX)
+	if (g_ShootScore > SCORE_NUM_MAX)
 	{
-		g_ShootScore = SCORE_MAX;
+		g_ShootScore = SCORE_NUM_MAX;
 	}
 
 }
@@ -231,9 +284,9 @@ void ShootScore(int addshoot)
 void HitScore(int addhit)
 {
 	g_HitScore += addhit;
-	if (g_HitScore > SCORE_MAX)
+	if (g_HitScore > SCORE_NUM_MAX)
 	{
-		g_HitScore = SCORE_MAX;
+		g_HitScore = SCORE_NUM_MAX;
 	}
 
 }
