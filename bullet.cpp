@@ -10,6 +10,7 @@
 #include "score.h"
 #include "bg.h"
 #include "player.h"
+#include "menu_game.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -44,6 +45,7 @@ static BULLET	g_Bullet[BULLET_MAX];	// バレット構造体
 
 float SIN, COS;
 BOOL Sin, Cos;
+MENU_GAME* menuG_b = GetMenuGame();
 
 //=============================================================================
 // 初期化処理
@@ -78,7 +80,7 @@ HRESULT InitBullet(void)
 	// バレット構造体の初期化
 	for (int i = 0; i < BULLET_MAX; i++)
 	{
-		g_Bullet[i].use   = TRUE;			// 未使用（発射されていない弾）
+		g_Bullet[i].use   = FALSE;			// 未使用（発射されていない弾）
 		g_Bullet[i].w     = TEXTURE_WIDTH;
 		g_Bullet[i].h     = TEXTURE_HEIGHT;
 		g_Bullet[i].pos   = XMFLOAT3(300, 300.0f, 0.0f);
@@ -129,6 +131,9 @@ void UninitBullet(void)
 //=============================================================================
 void UpdateBullet(void)
 {
+
+	if (menuG_b->flag == true) return;
+
 	int bulletCount = 0;				// 処理したバレットの数
 
 	for (int i = 0; i < BULLET_MAX; i++)

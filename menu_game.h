@@ -28,7 +28,11 @@ enum
 
 struct MENU_GAME
 {
+	XMFLOAT3	pos;		// ポリゴンの座標
+	float		w, h;		// 幅と高さ
+	int			texNo;		// 使用しているテクスチャ番号
 
+	bool		flag;		// ゲームメニューの起動フラグ
 };
 
 

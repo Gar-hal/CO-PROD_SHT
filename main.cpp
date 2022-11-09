@@ -22,6 +22,8 @@
 
 #include "file.h"
 
+#include "menu_game.h"
+
 
 //*****************************************************************************
 // マクロ定義
@@ -52,10 +54,11 @@ char	g_DebugStr[2048] = WINDOW_NAME;		// デバッグ文字表示用
 
 #endif
 
-int	g_Mode = MODE_TITLE;					// 起動時の画面を設定
+int	g_Mode = MODE_GAME;					// 起動時の画面を設定
+//int	g_Mode = MODE_TITLE;					// 起動時の画面を設定
 
 BOOL g_LoadGame = FALSE;					// NewGame
-
+MENU_GAME* menuG = GetMenuGame();
 
 //=============================================================================
 // メイン関数
@@ -312,6 +315,7 @@ void Update(void)
 		UpdateEnemy();
 		UpdateBullet();
 		UpdateScore();
+		UpdateMenuGame();
 		break;
 
 	case MODE_RESULT:		// リザルト画面の更新
@@ -355,6 +359,7 @@ void Draw(void)
 		DrawEnemy();
 		DrawPlayer();
 		DrawScore();
+		if (menuG->flag == true) DrawMenuGame();
 		break;
 
 	case MODE_RESULT:		// リザルト画面の描画
@@ -428,6 +433,9 @@ void SetMode(int mode)
 	// リザルトの終了処理
 	UninitResult();
 
+	// ゲームメニューの終了処理
+	UninitMenuGame();
+
 
 
 	g_Mode = mode;	// 次のモードをセットしている
@@ -447,6 +455,7 @@ void SetMode(int mode)
 		InitEnemy();
 		InitBullet();
 		InitScore();
+		InitMenuGame();
 
 		// ロードゲームだったらすべての初期化が終わった後にセーブデータを読み込む
 		if (g_LoadGame == TRUE)

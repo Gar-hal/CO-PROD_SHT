@@ -13,6 +13,7 @@
 #include "bounding_area.h"
 #include "score.h"
 #include "file.h"
+#include "menu_game.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -57,6 +58,7 @@ static BOOL		g_Load = FALSE;			// 初期化を行ったかのフラグ
 static PLAYER	g_Player[PLAYER_MAX];	// プレイヤー構造体
 
 POINT po;
+MENU_GAME *menuG_p = GetMenuGame();
 
 //=============================================================================
 // 初期化処理
@@ -158,13 +160,14 @@ void UninitPlayer(void)
 //=============================================================================
 void UpdatePlayer(void)
 {
-	ShowCursor(FALSE);	// カーソルの非表示
+	if (menuG_p->flag == true) return;
 
 	for (int i = 0; i < PLAYER_MAX; i++)
 	{
 		// 生きてるプレイヤーだけ処理をする
 		if (g_Player[i].use == TRUE)
 		{
+
 			// 地形との当たり判定用に座標のバックアップを取っておく
 			XMFLOAT3 pos_old = g_Player[i].pos;
 

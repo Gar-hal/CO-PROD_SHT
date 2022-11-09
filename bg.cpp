@@ -5,6 +5,7 @@
 //
 //=============================================================================
 #include "bg.h"
+#include "menu_game.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -37,6 +38,7 @@ static char *g_TexturName[TEXTURE_MAX] = {
 static BOOL	g_Load = FALSE;		// 初期化を行ったかのフラグ
 static BG	g_BG;
 
+MENU_GAME* menuG_bg = GetMenuGame();
 
 
 //=============================================================================
@@ -112,9 +114,12 @@ void UninitBG(void)
 //=============================================================================
 void UpdateBG(void)
 {
+	if (menuG_bg->flag == true) return;
+
 	g_BG.old_pos = g_BG.pos;	// １フレ前の情報を保存
 
-
+	g_BG.scrl += 0.001f;
+	g_BG.scrl2 += 0.01f;
 	//g_BG.scrl -= 0.0f;		// 0.005f;		// スクロール
 
 
@@ -171,11 +176,11 @@ void DrawBG(void)
 		// １枚のポリゴンの頂点とテクスチャ座標を設定
 		//float	tx = (g_BG.pos.x - g_BG.old_pos.x) * ((float)SCREEN_WIDTH / TEXTURE_WIDTH);
 		//g_BG.scrl += tx * 0.001f;
-		g_BG.scrl += 0.001f;
+		//g_BG.scrl += 0.001f;
 
 		SetSpriteLTColor(g_VertexBuffer,
 			0.0f, 0.0f, SCREEN_WIDTH, SKY_H,
-			g_BG.scrl, 0.0f, 1.0f, 1.0f,
+			0.0f, g_BG.scrl, 1.0f, 1.0f,
 			XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
 		// ポリゴン描画
@@ -193,7 +198,7 @@ void DrawBG(void)
 
 		SetSpriteLTColor(g_VertexBuffer,
 			0.0f, SKY_H/2, SCREEN_WIDTH, SKY_H,
-			g_BG.scrl2, 0.0f, 1.0f, 1.0f,
+			0.0f, g_BG.scrl2, 1.0f, 1.0f,
 			XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
 
 		// ポリゴン描画

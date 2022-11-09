@@ -9,6 +9,7 @@
 #include "player.h"
 #include "fade.h"
 #include "bounding_area.h"
+#include "menu_game.h"
 
 //*****************************************************************************
 // マクロ定義
@@ -44,6 +45,7 @@ static BOOL		g_Load = FALSE;			// 初期化を行ったかのフラグ
 static ENEMY	g_Enemy[ENEMY_MAX];		// エネミー構造体
 
 static int		g_EnemyCnt = ENEMY_MAX;
+MENU_GAME* menuG_e = GetMenuGame();
 
 static INTERPOLATION_DATA g_MoveTbl0[] = {
 	//座標									回転率							拡大率							時間
@@ -179,6 +181,9 @@ void UninitEnemy(void)
 //=============================================================================
 void UpdateEnemy(void)
 {
+
+	if (menuG_e->flag == true) return;
+
 	g_EnemyCnt = 0;	// 生きてるエネミーの数
 
 	for (int i = 0; i < ENEMY_MAX; i++)
